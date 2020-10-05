@@ -5,6 +5,11 @@ export class Chat extends Component {
         return (
             <div className='container'>
                 <div className='row justify-content-center'>
+                    <div className='alert alert-info col-md-6' >
+                        hello , {this.props.userLogin ? this.props.userLogin : null}
+                    </div>
+                </div>
+                <div className='row justify-content-center'>
                     <div className='col-md-6'>
                         <div className='border rounded shadow' style={{height : "600px", overflow:"auto",position: "relative"}} >
                             <div className='px-3'>
