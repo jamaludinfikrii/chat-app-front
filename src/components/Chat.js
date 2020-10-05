@@ -1,21 +1,16 @@
 import React, { Component } from 'react'
-import socket from 'socket.io-client'
 
-const io = socket('http://localhost:5000')
 export class Chat extends Component {
     componentDidMount(){
-        io.on('test' , (data) => {
-            console.log(data)
+        this.props.io.on('user-login',(message) => {
+            console.log(message)
         })
     }
     render() {
-        
         return (
             <div className='container'>
                 <div className='row justify-content-center'>
-                    <div onClick={() => {
-                        io.emit('test' , 'fikri')
-                    }} className='alert alert-info col-md-6' >
+                    <div className='alert alert-info col-md-6' >
                         hello , {this.props.userLogin ? this.props.userLogin : null}
                     </div>
                 </div>

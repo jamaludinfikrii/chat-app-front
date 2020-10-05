@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 export class LoginForm extends Component {
     onSubmitBtn = () => {
         let name = this.name.value
+        this.props.io.emit('user-login' , name)
         this.props.onClickSubmit(name)
     }
     render() {
