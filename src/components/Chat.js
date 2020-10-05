@@ -1,19 +1,32 @@
 import React, { Component } from 'react'
+import socket from 'socket.io-client'
 
+const io = socket('http://localhost:5000')
 export class Chat extends Component {
+    componentDidMount(){
+        io.on('test' , (data) => {
+            console.log(data)
+        })
+    }
     render() {
+        
         return (
             <div className='container'>
                 <div className='row justify-content-center'>
-                    <div className='alert alert-info col-md-6' >
+                    <div onClick={() => {
+                        io.emit('test' , 'fikri')
+                    }} className='alert alert-info col-md-6' >
                         hello , {this.props.userLogin ? this.props.userLogin : null}
                     </div>
                 </div>
                 <div className='row justify-content-center'>
                     <div className='col-md-6'>
                         <div className='border rounded shadow' style={{height : "600px", overflow:"auto",position: "relative"}} >
+                            <div className='bg-secondary text-white p-3' style={{position : "sticky",top:"0px",right : "0px",left : "0px"}}>
+                                User Online : Andi, Budi, Yogi
+                            </div>
                             <div className='px-3'>
-                                <div>User Online : Andi, Budi, Yogi</div>
+                               
                                 <div>Isi Chat</div>
                                 <div>Isi Chat</div>
                                 <div>Isi Chat</div>
