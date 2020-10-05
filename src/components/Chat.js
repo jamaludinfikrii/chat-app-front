@@ -2,19 +2,16 @@ import React, { Component } from 'react'
 
 export class Chat extends Component {
     state = {
-        chats : []
+        chats : [],
+        userOnline : []
     }
     componentDidMount(){
-        this.props.io.on('user-login',(message) => {
-            let dataMessage = {
-                username : "bot",
-                message
-            }
-            this.setState({chats : [...this.state.chats , dataMessage]})
-        })
-
         this.props.io.on('send-message' , (data) => {
             this.setState({chats : [...this.state.chats , data]})
+        })
+
+        this.props.io.on('user-online' , (data) => {
+            this.setState({userOnline : data})
         })
     }
 
@@ -50,7 +47,7 @@ export class Chat extends Component {
                     <div className='col-md-6'>
                         <div className='border rounded shadow' style={{height : "600px", overflow:"auto",position: "relative"}} >
                             <div className='bg-secondary text-white p-3' style={{position : "sticky",top:"0px",right : "0px",left : "0px"}}>
-                                User Online : Andi, Budi, Yogi
+                                User Online : {this.state.userOnline.map((val) => val.username + ' , ')}
                             </div>
                             <div className='px-3'>
                                
