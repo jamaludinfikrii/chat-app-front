@@ -1,11 +1,43 @@
 import React, { Component } from 'react'
 
 export class Chat extends Component {
+    state = {
+        chats : []
+    }
     componentDidMount(){
         this.props.io.on('user-login',(message) => {
-            console.log(message)
+            let dataMessage = {
+                username : "bot",
+                message
+            }
+            this.setState({chats : [...this.state.chats , dataMessage]})
+        })
+
+        this.props.io.on('send-message' , (data) => {
+            this.setState({chats : [...this.state.chats , data]})
         })
     }
+
+    onSendButtonClick = () => {
+        var data = {
+            message : this.msg.value,
+            username : this.props.userLogin
+        }
+
+        this.props.io.emit('send-message' , data)
+    }
+
+    renderMessage = () => {
+        return this.state.chats.map((val) => {
+            return(
+                <div>
+                    <span className='font-weight-bold text-danger'>{val.username}</span>
+                    <span>{val.message}</span>
+                </div>
+            )
+        })
+    }
+
     render() {
         return (
             <div className='container'>
@@ -22,40 +54,12 @@ export class Chat extends Component {
                             </div>
                             <div className='px-3'>
                                
-                                <div>Isi Chat</div>
-                                <div>Isi Chat</div>
-                                <div>Isi Chat</div>
-                                <div>Isi Chat</div>
-                                <div>Isi Chat</div>
-                                <div>Isi Chat</div>
-                                <div>Isi Chat</div>
-                                <div>Isi Chat</div>
-                                <div>Isi Chat</div>
-                                <div>Isi Chat</div>
-                                <div>Isi Chat</div>
-                                <div>Isi Chat</div>
-                                <div>Isi Chat</div>
-                                <div>Isi Chat</div>
-                                <div>Isi Chat</div>
-                                <div>Isi Chat</div>
-                                <div>Isi Chat</div>
-                                <div>Isi Chat</div>
-                                <div>Isi Chat</div>
-                                <div>Isi Chat</div>
-                                <div>Isi Chat</div>
-                                <div>Isi Chat</div>
-                                <div>Isi Chat</div>
-                                <div>Isi Chat</div>
-                                <div>Isi Chat</div>
-                                <div>Isi Chat</div>
-                                <div>Isi Chat</div>
-                                <div>Isi Chat</div>
-                                <div>Isi Chat</div>
-                                <div>Isi Chat</div>
+                               {this.renderMessage()}
+                              
                             </div>
-                            <div style={{position : "sticky",left :"0px" , bottom : "0px" , right : "0px"}} className='p-4 bg-secondary d-flex justfy-content-between'>
-                                <input type='text' className='form-control w-75'  />
-                                <input type='button' className='btn btn-info' value='send'/>
+                            <div style={{position : "fixed",left :"0px" , bottom : "0px" , right : "0px"}} className='p-4 bg-secondary d-flex justfy-content-between'>
+                                <input ref={(el) => this.msg = el} type='text' className='form-control w-75'  />
+                                <input type='button' onClick={this.onSendButtonClick} className='btn btn-info' value='send'/>
                             </div>
                         </div>
                     </div>
