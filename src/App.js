@@ -8,11 +8,12 @@ const io = socket('http://localhost:5000')
 
 export class App extends Component {
   state = {
-    name : null
+    name : null,
+    room : null
   }
 
-  changeStateName = (name) => {
-    this.setState({name : name})
+  changeState = (name,room) => {
+    this.setState({name : name,room : room})
   }
 
   render() {
@@ -20,7 +21,7 @@ export class App extends Component {
       return (
         <div className='container mt-5'>
             <h1 className='text-center mb-5'>Welcome To Chat App</h1>
-            <LoginForm io={io}  onClickSubmit={this.changeStateName} />
+            <LoginForm io={io}  onClickSubmit={this.changeState} />
         </div>
       )
     }
