@@ -8,7 +8,7 @@ export class Chat extends Component {
     componentDidMount(){
         this.props.io.on('send-message' , (data) => {
             console.log(data)
-            this.setState({chats : [...this.state.chats , data]})
+            this.setState({chats : [...this.state.chats , ...data]})
         })
 
         this.props.io.on('user-online' , (data) => {
